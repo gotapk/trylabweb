@@ -1,0 +1,37 @@
+Festival Kick of Love
+El Festival Internacional “Kick of Love” (KoL) me contactó para conceptualizar y diseñar el corazón del evento: un escenario que elevara la identidad y ayudara al reconocimiento inmediato del festival y la marca.
+
+Aproximadamente un mes previo a las fechas del KoL di inicio al proceso de investigación y documentación sobre escenarios para espectáculos. 
+
+Tomé en cuenta las necesidades del cliente y los artistas, además de las expectativas y necesidades del usuario final. Logré identificar tres necesidades principales para el proyecto: 
+
+1. La necesidad de permitir un alto grado de interacción entre el escenario, los artistas y el público. 
+
+2. La necesidad de generar un diseño capaz de personificar la identidad del evento. 
+
+3. La necesidad de armonizar la estructura público - artista y optimizar la experiencia sensorial.
+Para satisfacer estas necesidades analicé la composición tradicional de escenarios para espectáculos, su distribución correcta de sus espacios, los elementos esenciales y las delimitaciones de área para garantizar la seguridad. Al mismo tiempo se realicé un levantamiento de información enfocado en los usuarios finales, sus expectativas y necesidades. Finalmente, realicé un inventario para conocer los alcances de la infraestructura preexistente. Se contabilizó cañones de papeletas, lanzallamas, diversos tipos de luces de proyección y pantallas led en mega-formato. Además, se tomó en cuenta el logotipo ya creado para el evento, unos audífonos con alas.
+
+Una vez recopilada la información decidí crear dos escenarios independientes que pudieran alcanzar su máximo potencial, sin comprometer la experiencia. Ambos escenarios deberían de lograr:
+
+1. Representar intensamente, pero con elementos en concreto, el concepto del festival. 
+
+2. Mantener la atención del público antes, durante y después de las presentaciones. 
+
+3. Evocar sentimientos de emoción, satisfacción y euforia.
+
+
+El primer escenario, la parte alta, se diseñó para contrarrestar la visibilidad reducida causada por su elevación. Se colocó el nombre del evento, acompañado de luces led y pequeños doodles integrados al diseño. Para aumentar el impacto en el público, se diseño un sistema capaz de encender, apagar y parpadear los LED. Sin embargo, para subvertir las expectativas de los asistentes, las luces estaban sincronizadas al ritmo de las vibraciones del escenario y no la música. Creando así una experiencia corpórea de unidad con el escenario y la música.
+
+La segunda sección, el piso escénico, incorporaba el logotipo del KoL como estructura central. Para incrementar el efecto visual se agregaron un par de alas extras a los audífonos y una serie de nubes a los costados del escenario. Agregando casi 4 metros al escenario. Se decidió incluir iluminación LED alrededor de la figura central de la sección, por lo cual se requirió la miniaturización de los controladores y la construcción de un sistema de control y programación. 
+
+El diseño y construcción del sistema fueron internos. Continuando con nuestra política de involucramiento social los materiales, incluyendo cables de alta velocidad y microprocesadores,  el diseño  y la implementación fueron 100% mexicanos.
+El primer escenario: la parte alta, se diseñó para contrarrestar la visibilidad reducida causada por su elevación. Se colocó el nombre del evento, acompañado de luces led y pequeños doodles integrados al diseño. Para aumentar el impacto en el público, se diseñó un sistema capaz de encender, apagar y parpadear los LED. Sin embargo, para subvertir las expectativas de los asistentes, las luces estaban sincronizadas al ritmo de las vibraciones del escenario y no de la música. Creando así una experiencia corpórea de unidad con el escenario y el público. 
+
+La segunda sección, el piso escénico, incorporaba el logotipo del KoL como estructura central. Para incrementar el efecto visual se agregaron un par de alas extras a los audífonos y una serie de nubes a los costados del escenario. Agregando casi 4 metros al escenario. Se decidió incluir iluminación LED alrededor de la figura central de la sección, por lo cual se requirió la miniaturización de los controladores y la construcción de un sistema de control y programación.
+
+ El diseño y construcción del sistema fueron internos. Continuando con mi involucramiento social, los materiales, incluyendo cables de alta velocidad y microprocesadores, el diseño y la implementación fueron 100% mexicanos.
+
+La combinación de ambos escenarios permitió evocar simbologías que hacían alusión a la magia, los sueños y la euforia similar al vuelo, que los usuarios ligaron fuertemente a la música electrónica. El escenario creado se convirtió en un potente símbolo para KoL que contribuyó a la viralización del evento a través de las fotografías, vídeos y comentarios que compartieron asistentes e intérpretes.
+
+El trabajo realizado en conjunto con Kick of Love captó a más de ocho mil individuos en dos días, a pesar de competir directamente en fechas con el festival Internacional Medusa de Música Electrónica
