@@ -463,10 +463,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const lang = i18n.current.toUpperCase();
         const visitText = lang === 'ES' ? 'VISITAR PROYECTO' : 'VISIT PROJECT';
         
+        // Select localized data
+        const name = (lang === 'EN' && item.name_en) ? item.name_en : item.name;
+        const description = (lang === 'EN' && item.description_en) ? item.description_en : item.description;
+        const category = (lang === 'EN' && item.category_en) ? item.category_en : item.category;
+
         // Split description by sections if structured with [HEADER]
         let formattedBody = '';
-        if (item.description.includes('[')) {
-            const sections = item.description.split(/(\[[A-Z\s]+\]:?)/g);
+        if (description.includes('[')) {
+            const sections = description.split(/(\[[A-Z\s]+\]:?)/g);
             let currentContent = '';
             sections.forEach(part => {
                 if (part.match(/\[[A-Z\s]+\]:?/)) {
@@ -483,7 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 formattedBody += `<p class="premise-text">${currentContent.trim()}</p></div>`;
             }
         } else {
-            formattedBody = `<div class="report-section section-reveal"><div class="report-section-header">SYNOPSIS</div><p class="premise-text">${item.description.replace(/\n/g, '<br>')}</p></div>`;
+            formattedBody = `<div class="report-section section-reveal"><div class="report-section-header">${lang === 'ES' ? 'SINOPSIS' : 'SYNOPSIS'}</div><p class="premise-text">${description.replace(/\n/g, '<br>')}</p></div>`;
         }
 
         // Render Gallery if present
@@ -492,7 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
             extraGalleryHtml = `<div class="report-section section-reveal">
                 <div class="report-section-header">${lang === 'ES' ? 'EVIDENCIA VISUAL' : 'VISUAL EVIDENCE'}</div>
                 <div class="immersive-gallery">
-                    ${item.images.slice(0, 10).map(img => {
+                    ${item.images.map(img => {
                         const src = img.startsWith('img/') ? '/' + img : '/storage/' + img;
                         if (img.toLowerCase().endsWith('.mp4')) {
                             return `<div class="gallery-block"><video src="${src}" autoplay muted loop class="immersive-asset"></video></div>`;
@@ -507,29 +512,29 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="scanner-line"></div>
             <div class="btn-back-orb"><i>←</i></div>
             <div class="immersive-hero">
-                <img src="${mainImg}" class="hero-parallax-bg" alt="${item.name}">
+                <img src="${mainImg}" class="hero-parallax-bg" alt="${name}">
                 <div class="hero-overlay">
                     <span class="hero-tag">TECH-REPORT // V.${Math.floor(Math.random()*900)+100}</span>
-                    <h1 class="hero-title">${item.name}</h1>
+                    <h1 class="hero-title">${name}</h1>
                 </div>
             </div>
             
             <div class="immersive-body">
                 <aside class="lab-metadata-sidebar">
                     <div class="metadata-item">
-                        <span class="metadata-label">Project ID</span>
+                        <span class="metadata-label">${lang === 'ES' ? 'ID PROYECTO' : 'PROJECT ID'}</span>
                         <span class="metadata-value">TRYLAB-26-${item.id.toString().padStart(3, '0')}</span>
                     </div>
                     <div class="metadata-item">
-                        <span class="metadata-label">Classification</span>
-                        <span class="metadata-value">${item.category.toUpperCase()}</span>
+                        <span class="metadata-label">${lang === 'ES' ? 'CLASIFICACIÓN' : 'CLASSIFICATION'}</span>
+                        <span class="metadata-value">${category.toUpperCase()}</span>
                     </div>
                     <div class="metadata-item">
-                        <span class="metadata-label">Status</span>
+                        <span class="metadata-label">${lang === 'ES' ? 'ESTADO' : 'STATUS'}</span>
                         <span class="metadata-value">VALIDATED_RECOVERY</span>
                     </div>
                     <div class="metadata-item">
-                        <span class="metadata-label">Timestamp</span>
+                        <span class="metadata-label">${lang === 'ES' ? 'FECHA' : 'TIMESTAMP'}</span>
                         <span class="metadata-value">${new Date().toISOString().split('T')[0]}</span>
                     </div>
                 </aside>

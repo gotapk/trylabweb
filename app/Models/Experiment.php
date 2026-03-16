@@ -12,8 +12,11 @@ class Experiment extends Model
 
     protected $fillable = [
         'name',
+        'name_en',
         'description',
+        'description_en',
         'category',
+        'category_en',
         'image_path',
         'images',
         'link',
