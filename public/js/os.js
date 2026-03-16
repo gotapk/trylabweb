@@ -126,14 +126,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const windows = document.querySelectorAll('.os-window');
     let highestZIndex = 10000;
 
-    function bringToFront(win) {
+    function bringToFront(win, e) {
+        if (e && (e.target.closest('.window-controls') || e.target.closest('.resizer'))) {
+            // Don't re-order if clicking controls or resizers to avoid event disruption
+            return;
+        }
+
         AudioSystem.play('click');
         highestZIndex++;
-        // Use setProperty for !important just in case
         win.style.setProperty('z-index', highestZIndex, 'important');
         
-        // Move to end of parent to ensure physical DOM order priority
-        if (win.parentNode) {
+        // Only move in DOM if it's not already at the end
+        if (win.parentNode && win.parentNode.lastElementChild !== win) {
             win.parentNode.appendChild(win);
         }
 
@@ -144,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     windows.forEach(win => {
-        win.addEventListener('mousedown', () => bringToFront(win));
+        win.addEventListener('mousedown', (e) => bringToFront(win, e));
 
         const btnClose = win.querySelector('.btn-close');
         const btnMinimize = win.querySelector('.btn-minimize');
@@ -257,11 +261,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function openApp(appId) {
+        console.log("EXEC openApp for:", appId);
         const win = document.getElementById(`window-${appId}`);
         if (win) {
             AudioSystem.play('open');
             win.classList.remove('minimized');
             win.classList.add('open');
+            
             if (window.innerWidth <= 1024) {
                 win.classList.add('maximized');
             }
@@ -441,55 +447,102 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Portfolio & Experiments Logic ---
-    const postData = {
-        'kick-of-love': {
-            es: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Proyectos/Kick of love/1a55f3157064525.63727af4e4f3c.webp" class="hero-parallax-bg" alt="Kick of Love"><div class="hero-overlay"><span class="hero-tag">Lab Report // Escenografía</span><h1 class="hero-title">KICK OF<br>LOVE</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>HIPÓTESIS ESTRATÉGICA:</strong> Escenario interactivo que sincroniza vibración con luz.</p></div></div></div>`,
-            en: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Proyectos/Kick of love/1a55f3157064525.63727af4e4f3c.webp" class="hero-parallax-bg" alt="Kick of Love"><div class="hero-overlay"><span class="hero-tag">Lab Report // Scenography</span><h1 class="hero-title">KICK OF<br>LOVE</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>STRATEGIC HYPOTHESIS:</strong> Interactive stage synchronizing vibration with light.</p></div></div></div>`
-        },
-        'lookgeo': {
-            es: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Proyectos/Lookgeo/1ea3cf157163691.63740248ed048.webp" class="hero-parallax-bg" alt="Lookgeo"><div class="hero-overlay"><span class="hero-tag">Lab Report // Big Data</span><h1 class="hero-title">LOOKGEO</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>PROBLEMA:</strong> Vender inmuebles mediante metadatos ambientales.</p></div></div></div>`,
-            en: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Proyectos/Lookgeo/1ea3cf157163691.63740248ed048.webp" class="hero-parallax-bg" alt="Lookgeo"><div class="hero-overlay"><span class="hero-tag">Lab Report // Big Data</span><h1 class="hero-title">LOOKGEO</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>PROBLEM:</strong> Selling property through environmental metadata.</p></div></div></div>`
-        },
-        'maria-jose': {
-            es: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Proyectos/Maria jose/37199a192037623.65d579229fcce.webp" class="hero-parallax-bg" alt="Maria Jose"><div class="hero-overlay"><span class="hero-tag">Lab Report // Branding</span><h1 class="hero-title">MARÍA JOSÉ</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>TESIS:</strong> Revitalización urbana con herencia arquitectónica.</p></div></div></div>`,
-            en: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Proyectos/Maria jose/37199a192037623.65d579229fcce.webp" class="hero-parallax-bg" alt="Maria Jose"><div class="hero-overlay"><span class="hero-tag">Lab Report // Branding</span><h1 class="hero-title">MARÍA JOSÉ</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>THESIS:</strong> Urban revitalization through architectural heritage.</p></div></div></div>`
-        },
-        'porras': {
-            es: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Proyectos/Porras/07aaf6157162257.6373fbdfdb8e1.webp" class="hero-parallax-bg" alt="Porras"><div class="hero-overlay"><span class="hero-tag">Lab Report // Política</span><h1 class="hero-title">PORRAS</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>VECTOR:</strong> Guerrilla política y "porrazos" electorales.</p></div></div></div>`,
-            en: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Proyectos/Porras/07aaf6157162257.6373fbdfdb8e1.webp" class="hero-parallax-bg" alt="Porras"><div class="hero-overlay"><span class="hero-tag">Lab Report // Politics</span><h1 class="hero-title">PORRAS</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>VECTOR:</strong> Political guerrilla and electoral "porrazos".</p></div></div></div>`
-        },
-        'soneto': {
-            es: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Proyectos/Soneto/0688da192037295.65d5774840d36.webp" class="hero-parallax-bg" alt="Soneto"><div class="hero-overlay"><span class="hero-tag">Lab Report // Inmobiliaria</span><h1 class="hero-title">SONETO</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>SÍNTESIS:</strong> El ritmo de la Americana en volumen geométrico.</p></div></div></div>`,
-            en: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Proyectos/Soneto/0688da192037295.65d5774840d36.webp" class="hero-parallax-bg" alt="Soneto"><div class="hero-overlay"><span class="hero-tag">Lab Report // Real Estate</span><h1 class="hero-title">SONETO</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>SYNTHESIS:</strong> The rhythm of Colonia Americana in geometric volume.</p></div></div></div>`
-        },
-        'universum': {
-            es: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Proyectos/Universum/0d5945157005911.6371911d653b7.webp" class="hero-parallax-bg" alt="Universum"><div class="hero-overlay"><span class="hero-tag">Lab Report // Identity</span><h1 class="hero-title">UNIVERSUM</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>ESTRATEGIA:</strong> Psicología geométrica para rescate marcario.</p></div></div></div>`,
-            en: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Proyectos/Universum/0d5945157005911.6371911d653b7.webp" class="hero-parallax-bg" alt="Universum"><div class="hero-overlay"><span class="hero-tag">Lab Report // Identity</span><h1 class="hero-title">UNIVERSUM</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>STRATEGY:</strong> Geometric psychology for brand rescue.</p></div></div></div>`
-        },
-        'villas-navidenas': {
-            es: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Proyectos/concepto villas navideñas/1e4a65157011279.6371ba8d5cd33.webp" class="hero-parallax-bg" alt="Villas"><div class="hero-overlay"><span class="hero-tag">Lab Report // Turismo</span><h1 class="hero-title">VILLAS</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>OPERACIÓN:</strong> Hackear turismo con presupuestos reducidos.</p></div></div></div>`,
-            en: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Proyectos/concepto villas navideñas/1e4a65157011279.6371ba8d5cd33.webp" class="hero-parallax-bg" alt="Villas"><div class="hero-overlay"><span class="hero-tag">Lab Report // Tourism</span><h1 class="hero-title">VILLAS</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>OPERATION:</strong> Hacking tourism with limited budgets.</p></div></div></div>`
-        },
-        'congreso-medico': {
-            es: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Proyectos/congreso regional/0473b2157013733.6371c94a9c844.webp" class="hero-parallax-bg" alt="Congreso"><div class="hero-overlay"><span class="hero-tag">Lab Report // Digital</span><h1 class="hero-title">CONGRESO</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>CRISIS:</strong> Arquitectura M2M para eventos masivos.</p></div></div></div>`,
-            en: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Proyectos/congreso regional/0473b2157013733.6371c94a9c844.webp" class="hero-parallax-bg" alt="Congress"><div class="hero-overlay"><span class="hero-tag">Lab Report // Digital</span><h1 class="hero-title">CONGRESS</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>CRISIS:</strong> M2M architecture for massive events.</p></div></div></div>`
-        },
-        'hugo-fernandez': {
-            es: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Proyectos/hugo fernandez/28ca1a157070675.63728e1e39a9f.webp" class="hero-parallax-bg" alt="Hugo"><div class="hero-overlay"><span class="hero-tag">Lab Report // Legacy</span><h1 class="hero-title">HUGO</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>PARADIGMA:</strong> Trasladar una institución analógica al feed digital.</p></div></div></div>`,
-            en: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Proyectos/hugo fernandez/28ca1a157070675.63728e1e39a9f.webp" class="hero-parallax-bg" alt="Hugo"><div class="hero-overlay"><span class="hero-tag">Lab Report // Legacy</span><h1 class="hero-title">HUGO</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>PARADIGM:</strong> Moving an analog institution to the digital feed.</p></div></div></div>`
-        },
-        'texturas-pbr': {
-            es: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Experimentos/Experimentacion de texturas calculadas matematicamente/067324192128517.65d6ac877a6d8.webp" class="hero-parallax-bg" alt="PBR"><div class="hero-overlay"><span class="hero-tag">Blog // Procedural</span><h1 class="hero-title">RUIDO</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>HIPÓTESIS:</strong> Fotorrealismo puro mediante algoritmos.</p></div></div></div>`,
-            en: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Experimentos/Experimentacion de texturas calculadas matematicamente/067324192128517.65d6ac877a6d8.webp" class="hero-parallax-bg" alt="PBR"><div class="hero-overlay"><span class="hero-tag">Blog // Procedural</span><h1 class="hero-title">NOISE</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>HYPOTHESIS:</strong> Pure photorealism through algorithms.</p></div></div></div>`
-        },
-        'fusion-2d-3d': {
-            es: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Experimentos/Experimentación de accesorios 2D para 3D/3ed364192129515.65d6b336b1f7a.webp" class="hero-parallax-bg" alt="Fusion"><div class="hero-overlay"><span class="hero-tag">Blog // Shaders</span><h1 class="hero-title">FUSIÓN</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>RUPTURA:</strong> Arte manga 2D en geometrías 3D.</p></div></div></div>`,
-            en: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Experimentos/Experimentación de accesorios 2D para 3D/3ed364192129515.65d6b336b1f7a.webp" class="hero-parallax-bg" alt="Fusion"><div class="hero-overlay"><span class="hero-tag">Blog // Shaders</span><h1 class="hero-title">FUSION</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>RUPTURE:</strong> 2D manga art on 3D geometries.</p></div></div></div>`
-        },
-        'pulpo-pbr': {
-            es: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Experimentos/pulpo pbr/08c8cf192129183.65d6b0f1ef625.webp" class="hero-parallax-bg" alt="Pulpo"><div class="hero-overlay"><span class="hero-tag">Blog // PBR</span><h1 class="hero-title">LUMEN</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>SSS:</strong> Dispersión subsuperficial en biología extruida.</p></div></div></div>`,
-            en: `<div class="premium-post"><div class="btn-back-orb"><i>←</i></div><div class="immersive-hero"><img src="/img/Experimentos/pulpo pbr/08c8cf192129183.65d6b0f1ef625.webp" class="hero-parallax-bg" alt="Octopus"><div class="hero-overlay"><span class="hero-tag">Blog // PBR</span><h1 class="hero-title">LUMEN</h1></div></div><div class="immersive-body"><div class="section-reveal premise-card"><p class="premise-text"><strong>SSS:</strong> Subsurface scattering in extruded biology.</p></div></div></div>`
+    const getDynamicPostData = (id, type) => {
+        const dataList = window.BACKEND_DATA ? window.BACKEND_DATA[type] : [];
+        const item = dataList.find(i => String(i.id) === String(id));
+
+        if (!item) return null;
+
+        let mainImg = item.image_path;
+        if (mainImg.startsWith('img/')) {
+            mainImg = '/' + (mainImg.endsWith('/') ? mainImg + 'thumbnail.jpg' : mainImg);
+        } else {
+            mainImg = '/storage/' + mainImg;
         }
+
+        const lang = i18n.current.toUpperCase();
+        const visitText = lang === 'ES' ? 'VISITAR PROYECTO' : 'VISIT PROJECT';
+        
+        // Split description by sections if structured with [HEADER]
+        let formattedBody = '';
+        if (item.description.includes('[')) {
+            const sections = item.description.split(/(\[[A-Z\s]+\]:?)/g);
+            let currentContent = '';
+            sections.forEach(part => {
+                if (part.match(/\[[A-Z\s]+\]:?/)) {
+                    if (currentContent) {
+                        formattedBody += `<p class="premise-text">${currentContent.trim()}</p></div>`;
+                    }
+                    formattedBody += `<div class="report-section section-reveal"><div class="report-section-header">${part.replace(/[\[\]:]/g, '')}</div>`;
+                    currentContent = '';
+                } else {
+                    currentContent += part;
+                }
+            });
+            if (currentContent) {
+                formattedBody += `<p class="premise-text">${currentContent.trim()}</p></div>`;
+            }
+        } else {
+            formattedBody = `<div class="report-section section-reveal"><div class="report-section-header">SYNOPSIS</div><p class="premise-text">${item.description.replace(/\n/g, '<br>')}</p></div>`;
+        }
+
+        // Render Gallery if present
+        let extraGalleryHtml = "";
+        if (item.images && Array.isArray(item.images) && item.images.length > 0) {
+            extraGalleryHtml = `<div class="report-section section-reveal">
+                <div class="report-section-header">${lang === 'ES' ? 'EVIDENCIA VISUAL' : 'VISUAL EVIDENCE'}</div>
+                <div class="immersive-gallery">
+                    ${item.images.slice(0, 10).map(img => {
+                        const src = img.startsWith('img/') ? '/' + img : '/storage/' + img;
+                        if (img.toLowerCase().endsWith('.mp4')) {
+                            return `<div class="gallery-block"><video src="${src}" autoplay muted loop class="immersive-asset"></video></div>`;
+                        }
+                        return `<div class="gallery-block"><img src="${src}" class="immersive-asset" alt="Laboratory Asset"></div>`;
+                    }).join('')}
+                </div>
+            </div>`;
+        }
+
+        return `<div class="premium-post">
+            <div class="scanner-line"></div>
+            <div class="btn-back-orb"><i>←</i></div>
+            <div class="immersive-hero">
+                <img src="${mainImg}" class="hero-parallax-bg" alt="${item.name}">
+                <div class="hero-overlay">
+                    <span class="hero-tag">TECH-REPORT // V.${Math.floor(Math.random()*900)+100}</span>
+                    <h1 class="hero-title">${item.name}</h1>
+                </div>
+            </div>
+            
+            <div class="immersive-body">
+                <aside class="lab-metadata-sidebar">
+                    <div class="metadata-item">
+                        <span class="metadata-label">Project ID</span>
+                        <span class="metadata-value">TRYLAB-26-${item.id.toString().padStart(3, '0')}</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Classification</span>
+                        <span class="metadata-value">${item.category.toUpperCase()}</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Status</span>
+                        <span class="metadata-value">VALIDATED_RECOVERY</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Timestamp</span>
+                        <span class="metadata-value">${new Date().toISOString().split('T')[0]}</span>
+                    </div>
+                </aside>
+
+                <main class="report-content-flow">
+                    ${formattedBody}
+                    ${extraGalleryHtml}
+                    ${item.link ? `<div class="report-section section-reveal" style="text-align:center;">
+                        <a href="${item.link}" target="_blank" class="pixel-btn" style="text-decoration:none; padding: 15px 40px; border: 1px solid white; color: white; display: inline-block; font-weight: bold; letter-spacing: 2px;">${visitText}</a>
+                    </div>` : ''}
+                </main>
+            </div>
+        </div>`;
     };
 
     function initImmersiveAnimations(winId) {
@@ -537,12 +590,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const contentArea = win.querySelector('[id$="-dynamic-content"]');
         const scroller = win.querySelector('.portfolio-container') || win.querySelector('.window-content');
         
-        const lang = i18n.current.toLowerCase();
-        const data = postData[id];
+        const type = winName === 'browser' ? 'projects' : 'experiments';
+        const html = getDynamicPostData(id, type);
 
-        if (data) {
-            // Check if data is localized or static
-            contentArea.innerHTML = data[lang] || data;
+        if (html) {
+            contentArea.innerHTML = html;
             grid.style.display = 'none';
             postView.style.display = 'block';
             if (scroller) scroller.scrollTop = 0;
@@ -559,12 +611,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.querySelectorAll('.project-card').forEach(card => {
-        card.addEventListener('click', () => openPost(card.getAttribute('data-project'), 'browser'));
-    });
-    document.querySelectorAll('.experiment-post').forEach(card => {
-        card.addEventListener('click', (e) => {
-            e.preventDefault();
-            openPost(card.getAttribute('data-exp'), 'experiments');
+        card.addEventListener('click', () => {
+            const id = card.getAttribute('data-id');
+            const type = card.getAttribute('data-type');
+            if (id) openPost(id, type === 'projects' ? 'browser' : 'experiments');
         });
     });
 
@@ -917,7 +967,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 'exp3-desc': 'Photorealistic material tests (PBR) and subsurface scattering simulation in organic marine models.'
             }
         },
+        init() {
+            // Merge with DB translations if available
+            if (window.DB_TRANSLATIONS) {
+                Object.keys(window.DB_TRANSLATIONS).forEach(locale => {
+                    const upperLocale = locale.toUpperCase();
+                    if (!this.translations[upperLocale]) this.translations[upperLocale] = {};
+                    Object.assign(this.translations[upperLocale], window.DB_TRANSLATIONS[locale]);
+                });
+            }
+            this.updateUI();
+        },
         updateUI() {
+
             const t = this.translations[this.current];
 
             // Bulk update via data-i18n
@@ -984,4 +1046,7 @@ document.addEventListener('DOMContentLoaded', () => {
             AudioSystem.play('click');
         });
     }
+
+    i18n.init();
 });
+

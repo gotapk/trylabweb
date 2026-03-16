@@ -231,105 +231,35 @@
                                 <p data-i18n="browser-hero-p">Explora nuestro trabajo más reciente en diseño, desarrollo y arte digital.</p>
                             </div>
                             
-                            <!-- Projects Gr                             <div class="project-card" data-project="kick-of-love">
+                            <!-- Projects Grid -->
+                            @foreach($projects as $project)
+                            <div class="project-card" data-id="{{ $project->id }}" data-type="projects">
                                 <div class="project-media">
-                                    <img src="{{ asset('img/Proyectos/Kick of love/1a55f3157064525.63727af4e4f3c.webp') }}" alt="Kick of Love">
+                                    @php
+                                        $isSeeded = str_starts_with($project->image_path, 'img/');
+                                        if ($isSeeded) {
+                                            $imgSrc = str_ends_with($project->image_path, '/') 
+                                                ? asset($project->image_path . 'thumbnail.jpg') 
+                                                : asset($project->image_path);
+                                        } else {
+                                            $imgSrc = asset('storage/' . $project->image_path);
+                                        }
+                                    @endphp
+                                    <img src="{{ $imgSrc }}" alt="{{ $project->name }}" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text={{ urlencode($project->name) }}'">
                                 </div>
                                 <div class="project-info">
-                                    <h3 data-i18n="p1-title">Escenografía: Kick of Love</h3>
-                                    <p data-i18n="p1-desc">Diseñamos y construimos sistemas interactivos y escenarios inmersivos para elevar la identidad del festival.</p>
+                                    <h3>{{ $project->name }}</h3>
+                                    <p>{{ $project->category }}</p>
                                 </div>
                             </div>
-                            <!-- Project 2: Lookgeo -->
-                            <div class="project-card" data-project="lookgeo">
-                                <div class="project-media">
-                                    <img src="{{ asset('img/Proyectos/Lookgeo/1ea3cf157163691.63740248ed048.webp') }}" alt="Lookgeo">
-                                </div>
-                                <div class="project-info">
-                                    <h3 data-i18n="p2-title">UX/UI & Social: Lookgeo</h3>
-                                    <p data-i18n="p2-desc">Conceptualizamos la identidad social y la interfaz de una innovadora plataforma de bienes raíces basada en metadatos.</p>
-                                </div>
-                            </div>
-                            <!-- Project 3: Maria Jose -->
-                            <div class="project-card" data-project="maria-jose">
-                                <div class="project-media">
-                                    <img src="{{ asset('img/Proyectos/Maria jose/37199a192037623.65d579229fcce.webp') }}" alt="Maria Jose Living">
-                                </div>
-                                <div class="project-info">
-                                    <h3 data-i18n="p3-title">Branding: María José Living</h3>
-                                    <p data-i18n="p3-desc">Desarrollamos una marca empática enfocada en revitalizar la zona centro de Guadalajara, honrando su herencia arquitectónica.</p>
-                                </div>
-                            </div>
-                            <!-- Project 4: Porras -->
-                            <div class="project-card" data-project="porras">
-                                <div class="project-media">
-                                    <img src="{{ asset('img/Proyectos/Porras/07aaf6157162257.6373fbdfdb8e1.webp') }}" alt="Edgardo Porras">
-                                </div>
-                                <div class="project-info">
-                                    <h3 data-i18n="p4-title">Marketing: Edgardo Porras</h3>
-                                    <p data-i18n="p4-desc">Ejecutamos una estrategia disruptiva de campaña y redes sociales, transformando por completo la percepción pública del candidato.</p>
-                                </div>
-                            </div>
-                            <!-- Project 5: Soneto -->
-                            <div class="project-card" data-project="soneto">
-                                <div class="project-media">
-                                    <img src="{{ asset('img/Proyectos/Soneto/0688da192037295.65d5774840d36.webp') }}" alt="Soneto Residencial">
-                                </div>
-                                <div class="project-info">
-                                    <h3 data-i18n="p5-title">Branding: Soneto Residencial</h3>
-                                    <p data-i18n="p5-desc">Capturamos la esencia vibrante de la colonia Americana en un estilo de vida moderno y enérgico diseñado para prosperar.</p>
-                                </div>
-                            </div>
-                            <!-- Project 6: Universum -->
-                            <div class="project-card" data-project="universum">
-                                <div class="project-media">
-                                    <img src="{{ asset('img/Proyectos/Universum/0d5945157005911.6371911d653b7.webp') }}" alt="Universum">
-                                </div>
-                                <div class="project-info">
-                                    <h3 data-i18n="p6-title">Re-Branding: Universum</h3>
-                                    <p data-i18n="p6-desc">Redefinimos la identidad corporativa de la inmobiliaria para asegurar su registro y consolidar su presencia en medios digitales.</p>
-                                </div>
-                            </div>
-                            <!-- Project 7: Villas Navideñas -->
-                            <div class="project-card" data-project="villas-navidenas">
-                                <div class="project-media">
-                                    <img src="{{ asset('img/Proyectos/concepto villas navideñas/1e4a65157011279.6371ba8d5cd33.webp') }}" alt="Villas Navideñas">
-                                </div>
-                                <div class="project-info">
-                                    <h3 data-i18n="p7-title">Instalación: Villas Navideñas</h3>
-                                    <p data-i18n="p7-desc">Impulsamos el turismo local creando ecosistemas de iluminación automáticos e instalaciones interactivas inmersivas de bajo costo.</p>
-                                </div>
-                            </div>
-                            <!-- Project 8: Congreso Médico -->
-                            <div class="project-card" data-project="congreso-medico">
-                                <div class="project-media">
-                                    <img src="{{ asset('img/Proyectos/congreso regional/0473b2157013733.6371c94a9c844.webp') }}" alt="Congreso de Médicos">
-                                </div>
-                                <div class="project-info">
-                                    <h3 data-i18n="p8-title">Estrategia: Congreso Médico</h3>
-                                    <p data-i18n="p8-desc">Salvamos un evento crítico mediante una plataforma M2M y un modelo de monetización rentable, asegurando patrocinios corporativos clave.</p>
-                                </div>
-                            </div>
-                            <!-- Project 9: Hugo Fernandez -->
-                            <div class="project-card" data-project="hugo-fernandez">
-                                <div class="project-media">
-                                    <img src="{{ asset('img/Proyectos/hugo fernandez/28ca1a157070675.63728e1e39a9f.webp') }}" alt="Hugo Fernandez">
-                                </div>
-                                <div class="project-info">
-                                    <h3 data-i18n="p9-title">Identidad: Hugo Fernández</h3>
-                                    <p data-i18n="p9-desc">Actualizamos la gráfica identitaria y estrategia digital de esta leyenda musical para conectar orgánicamente con nuevas generaciones.</p>
-                                </div>
-                            </div>
-ta leyenda musical para conectar orgánicamente con nuevas generaciones.</p>
-                                </div>
-                            </div>
-                        </div>
+                            @endforeach
+
                         </div> <!-- End browser-view-grid -->
                         
                         <!-- Blog Post View -->
                         <div id="browser-view-post" style="display: none;">
                             <div class="post-content-area" id="post-dynamic-content">
-                                <!-- JS content goes here (Includes Orb Back Button) -->
+                                <!-- JS content goes here -->
                             </div>
                         </div>
                     </div>
@@ -344,6 +274,7 @@ ta leyenda musical para conectar orgánicamente con nuevas generaciones.</p>
                 <div class="resizer resizer-e"></div>
                 <div class="resizer resizer-w"></div>
             </div>
+
 
             <!-- Window: Contact -->
             <div class="os-window glass" id="window-contact" style="z-index: 100;">
@@ -507,39 +438,30 @@ ta leyenda musical para conectar orgánicamente con nuevas generaciones.</p>
                             </div>
 
                             <div class="projects-grid">
-                                <article class="project-card experiment-post" data-exp="texturas-pbr">
+                                @foreach($experiments as $experiment)
+                                <article class="project-card experiment-post" data-id="{{ $experiment->id }}" data-type="experiments">
                                     <div class="project-media">
-                                        <img src="{{ asset('img/Experimentos/Experimentacion de texturas calculadas matematicamente/067324192128517.65d6ac877a6d8.webp') }}" alt="Texturas PBR">
+                                        @php
+                                            $isSeeded = str_starts_with($experiment->image_path, 'img/');
+                                            if ($isSeeded) {
+                                                $imgSrc = str_ends_with($experiment->image_path, '/') 
+                                                    ? asset($experiment->image_path . 'thumbnail.jpg') 
+                                                    : asset($experiment->image_path);
+                                            } else {
+                                                $imgSrc = asset('storage/' . $experiment->image_path);
+                                            }
+                                        @endphp
+                                        <img src="{{ $imgSrc }}" alt="{{ $experiment->name }}" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text={{ urlencode($experiment->name) }}'">
                                     </div>
                                     <div class="project-info">
-                                        <div class="exp-date" style="font-size: 10px; opacity: 0.5; margin-bottom: 5px;" data-i18n="exp1-date">FEB 2026</div>
-                                        <h3 data-i18n="exp1-title">Texturas Matemáticas PBR</h3>
-                                        <p data-i18n="exp1-desc">Exploración de generación procedural de texturas mediante algoritmos matemáticos complejos.</p>
+                                        <div class="exp-date" style="font-size: 10px; opacity: 0.5; margin-bottom: 5px;">{{ $experiment->created_at->format('M Y') }}</div>
+                                        <h3>{{ $experiment->name }}</h3>
+                                        <p>{{ $experiment->category }}</p>
                                     </div>
                                 </article>
-                                
-                                <article class="project-card experiment-post" data-exp="fusion-2d-3d">
-                                    <div class="project-media">
-                                        <img src="{{ asset('img/Experimentos/Experimentación de accesorios 2D para 3D/3ed364192129515.65d6b336b1f7a.webp') }}" alt="Accesorios 2D en 3D">
-                                    </div>
-                                    <div class="project-info">
-                                        <div class="exp-date" style="font-size: 10px; opacity: 0.5; margin-bottom: 5px;" data-i18n="exp2-date">ENE 2026</div>
-                                        <h3 data-i18n="exp2-title">Fusión Visual 2D en 3D</h3>
-                                        <p data-i18n="exp2-desc">Integración experimental de accesorios bidimensionales estilizados sobre modelos y entornos tridimensionales.</p>
-                                    </div>
-                                </article>
-                                
-                                <article class="project-card experiment-post" data-exp="pulpo-pbr">
-                                    <div class="project-media">
-                                        <img src="{{ asset('img/Experimentos/pulpo pbr/08c8cf192129183.65d6b0f1ef625.webp') }}" alt="Pulpo PBR">
-                                    </div>
-                                    <div class="project-info">
-                                        <div class="exp-date" style="font-size: 10px; opacity: 0.5; margin-bottom: 5px;" data-i18n="exp3-date">NOV 2025</div>
-                                        <h3 data-i18n="exp3-title">Renderizado: Pulpo PBR</h3>
-                                        <p data-i18n="exp3-desc">Pruebas de materiales fotorealistas (PBR) y simulación de luz subsuperficial en modelos orgánicos marinos.</p>
-                                    </div>
-                                </article>
+                                @endforeach
                             </div>
+
                         </div>
 
                         <!-- Experiment Post View -->
@@ -633,5 +555,13 @@ ta leyenda musical para conectar orgánicamente con nuevas generaciones.</p>
         </div>
 
         <!-- Advanced Custom Cursor removed -->
+        <script>
+            window.DB_TRANSLATIONS = @json($translations);
+            window.BACKEND_DATA = {
+                projects: @json($projects),
+                experiments: @json($experiments)
+            };
+        </script>
     </body>
+
 </html>
