@@ -125,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Window Management ---
     const windows = document.querySelectorAll('.os-window');
     let highestZIndex = 10000;
+    let currentActivePost = null; // Track { id, winName }
 
     function bringToFront(win, e) {
         if (e && (e.target.closest('.window-controls') || e.target.closest('.resizer'))) {
@@ -163,9 +164,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const appId = win.id.replace('window-', '');
                 const taskbarItem = document.querySelector(`.taskbar-item[data-app="${appId}"]`);
                 if (taskbarItem) taskbarItem.classList.remove('active');
-                if (appId === 'browser') {
-                    const viewGrid = document.getElementById('browser-view-grid');
-                    const viewPost = document.getElementById('browser-view-post');
+                 if (appId === 'browser' || appId === 'experiments') {
+                    currentActivePost = null;
+                    const viewGrid = document.getElementById(`${appId === 'browser' ? 'browser' : 'experiments'}-view-grid`);
+                    const viewPost = document.getElementById(`${appId === 'browser' ? 'browser' : 'experiments'}-view-post`);
                     if (viewGrid && viewPost) {
                         viewPost.style.display = 'none';
                         viewGrid.style.display = 'block';
@@ -455,7 +457,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let mainImg = item.image_path;
         if (mainImg.startsWith('img/')) {
-            mainImg = '/' + (mainImg.endsWith('/') ? mainImg + 'thumbnail.jpg' : mainImg);
+            // If it's a directory path, add thumbnail.jpg
+            if (!mainImg.toLowerCase().match(/\.(jpg|jpeg|png|webp|gif)$/)) {
+                mainImg = mainImg.endsWith('/') ? mainImg + 'thumbnail.jpg' : mainImg + '/thumbnail.jpg';
+            }
+            mainImg = '/' + mainImg;
         } else {
             mainImg = '/storage/' + mainImg;
         }
@@ -470,12 +476,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Split description by sections if structured with [HEADER]
         let formattedBody = '';
-        if (description.includes('[')) {
-            const sections = description.split(/(\[[A-Z\s]+\]:?)/g);
+        const safeDesc = description || '';
+        if (safeDesc.includes('[')) {
+            const sections = safeDesc.split(/(\[[A-Z\s]+\]:?)/g);
             let currentContent = '';
             sections.forEach(part => {
                 if (part.match(/\[[A-Z\s]+\]:?/)) {
-                    if (currentContent) {
+                    if (currentContent && currentContent.trim()) {
                         formattedBody += `<p class="premise-text">${currentContent.trim()}</p></div>`;
                     }
                     formattedBody += `<div class="report-section section-reveal"><div class="report-section-header">${part.replace(/[\[\]:]/g, '')}</div>`;
@@ -484,11 +491,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     currentContent += part;
                 }
             });
-            if (currentContent) {
+            if (currentContent && currentContent.trim()) {
                 formattedBody += `<p class="premise-text">${currentContent.trim()}</p></div>`;
             }
         } else {
-            formattedBody = `<div class="report-section section-reveal"><div class="report-section-header">${lang === 'ES' ? 'SINOPSIS' : 'SYNOPSIS'}</div><p class="premise-text">${description.replace(/\n/g, '<br>')}</p></div>`;
+            formattedBody = `<div class="report-section section-reveal"><div class="report-section-header">${lang === 'ES' ? 'SINOPSIS' : 'SYNOPSIS'}</div><p class="premise-text">${safeDesc.replace(/\n/g, '<br>')}</p></div>`;
         }
 
         // Render Gallery if present
@@ -588,7 +595,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function openPost(id, winName) {
+    function openPost(id, winName, isRefresh = false) {
         const win = document.getElementById(`window-${winName}`);
         const grid = win.querySelector('[id$="-view-grid"]');
         const postView = win.querySelector('[id$="-view-post"]');
@@ -599,13 +606,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const html = getDynamicPostData(id, type);
 
         if (html) {
+            currentActivePost = { id, winName };
+            const oldScrollTop = scroller ? scroller.scrollTop : 0;
+            
             contentArea.innerHTML = html;
-            grid.style.display = 'none';
-            postView.style.display = 'block';
-            if (scroller) scroller.scrollTop = 0;
+            
+            if (!isRefresh) {
+                grid.style.display = 'none';
+                postView.style.display = 'block';
+                if (scroller) scroller.scrollTop = 0;
+            } else {
+                if (scroller) scroller.scrollTop = oldScrollTop;
+            }
+
             const backOrb = contentArea.querySelector('.btn-back-orb');
             if (backOrb) {
                 backOrb.onclick = () => {
+                    currentActivePost = null;
                     postView.style.display = 'none';
                     grid.style.display = 'block';
                     scroller.scrollTop = 0;
@@ -1026,11 +1043,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Update open post if any
-            const activePost = document.querySelector('.browser-window [id$="-view-post"]:not([style*="display: none"])');
-            if (activePost) {
-                // Re-open current post to refresh content in correct language
-                // This is a bit complex since we don't store the current open ID easily
-                // For now, if the user changes language while reading, we might need a better way.
+            if (currentActivePost) {
+                openPost(currentActivePost.id, currentActivePost.winName, true);
             }
         }
     };
