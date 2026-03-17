@@ -400,7 +400,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         AudioSystem.play('startup');
                         if (successMsg) successMsg.style.display = 'block';
                         this.reset();
-                        if (fileNameDisplay) fileNameDisplay.textContent = 'Adjuntar archivo (Opcional)';
+                        if (fileNameDisplay) {
+                            const lang = i18n.current.toUpperCase();
+                            fileNameDisplay.textContent = lang === 'ES' ? 'Adjuntar archivo (Opcional)' : 'Attach file (Optional)';
+                        }
                     } else {
                         AudioSystem.play('error');
                         if (errorMsg) errorMsg.style.display = 'block';
@@ -1040,6 +1043,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (langBtn) {
                 langBtn.textContent = t['lab-btn'];
                 langBtn.title = t['change-lang'];
+            }
+
+            // Update Contact Form Labels
+            const submitBtn = document.querySelector('#contactForm .btn-submit');
+            if (submitBtn) submitBtn.textContent = t['btn-submit'];
+            
+            const fileLabel = document.getElementById('file-name-display');
+            if (fileLabel && (fileLabel.textContent === 'Adjuntar archivo (Opcional)' || fileLabel.textContent === 'Attach file (Optional)')) {
+                fileLabel.textContent = t['label-file'];
             }
 
             // Update open post if any

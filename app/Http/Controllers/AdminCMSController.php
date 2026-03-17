@@ -165,4 +165,10 @@ class AdminCMSController extends Controller
 
         return redirect()->back()->with('success', 'Translation saved successfully');
     }
+
+    public function markAsRead(ContactMessage $message)
+    {
+        $message->update(['status' => 'read']);
+        return response()->json(['success' => true]);
+    }
 }

@@ -13,8 +13,20 @@ class ContactMessage extends Model
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'subject',
         'message',
+        'form_type',
+        'services',
+        'attachment_path',
+        'diag_web',
+        'diag_brand',
+        'diag_media',
+        'diag_startup',
         'status',
+    ];
+
+    protected $casts = [
+        'services' => 'array',
     ];
 }

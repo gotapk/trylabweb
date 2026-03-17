@@ -20,6 +20,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/', [\App\Http\Controllers\AdminCMSController::class, 'index'])->name('admin.index');
     Route::get('/visits', [\App\Http\Controllers\AdminCMSController::class, 'visits'])->name('admin.visits');
     Route::get('/messages', [\App\Http\Controllers\AdminCMSController::class, 'messages'])->name('admin.messages');
+    Route::post('/messages/{message}/read', [\App\Http\Controllers\AdminCMSController::class, 'markAsRead'])->name('admin.messages.read');
     
     // CMS CRUD
     Route::get('/projects', [\App\Http\Controllers\AdminCMSController::class, 'projects'])->name('admin.projects');
