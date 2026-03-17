@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
         AudioSystem.play('click');
         highestZIndex++;
         win.style.setProperty('z-index', highestZIndex, 'important');
-        
+
         // Only move in DOM if it's not already at the end
         if (win.parentNode && win.parentNode.lastElementChild !== win) {
             win.parentNode.appendChild(win);
@@ -147,6 +147,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const taskbarItem = document.querySelector(`.taskbar-item[data-app="${appId}"]`);
         if (taskbarItem) taskbarItem.classList.add('active');
     }
+
+    // --- Dynamic Window Responsiveness ---
+    const windowObserver = new ResizeObserver(entries => {
+        for (let entry of entries) {
+            const win = entry.target;
+            if (entry.contentRect.width < 850) {
+                win.classList.add('window-narrow');
+            } else {
+                win.classList.remove('window-narrow');
+            }
+        }
+    });
+
+    // Observe initial windows
+    windows.forEach(win => windowObserver.observe(win));
+
+    // Expose observer for new windows
+    window.osWindowObserver = windowObserver;
+    windows.forEach(win => windowObserver.observe(win));
 
     windows.forEach(win => {
         win.addEventListener('mousedown', (e) => bringToFront(win, e));
@@ -164,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const appId = win.id.replace('window-', '');
                 const taskbarItem = document.querySelector(`.taskbar-item[data-app="${appId}"]`);
                 if (taskbarItem) taskbarItem.classList.remove('active');
-                 if (appId === 'browser' || appId === 'experiments') {
+                if (appId === 'browser' || appId === 'experiments') {
                     currentActivePost = null;
                     const viewGrid = document.getElementById(`${appId === 'browser' ? 'browser' : 'experiments'}-view-grid`);
                     const viewPost = document.getElementById(`${appId === 'browser' ? 'browser' : 'experiments'}-view-post`);
@@ -269,11 +288,11 @@ document.addEventListener('DOMContentLoaded', () => {
             AudioSystem.play('open');
             win.classList.remove('minimized');
             win.classList.add('open');
-            
+
             if (window.innerWidth <= 1024) {
                 win.classList.add('maximized');
             }
-            
+
             // Mobile focus: Close/Hide other windows to avoid layering blocks
             if (window.innerWidth < 660) {
                 windows.forEach(w => {
@@ -285,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             }
-            
+
             bringToFront(win);
 
             // --- DEEP INNOVATION: LAB APP INTRO ---
@@ -471,7 +490,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const lang = i18n.current.toUpperCase();
         const visitText = lang === 'ES' ? 'VISITAR PROYECTO' : 'VISIT PROJECT';
-        
+
         // Select localized data
         const name = (lang === 'EN' && item.name_en) ? item.name_en : item.name;
         const description = (lang === 'EN' && item.description_en) ? item.description_en : item.description;
@@ -508,12 +527,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="report-section-header">${lang === 'ES' ? 'EVIDENCIA VISUAL' : 'VISUAL EVIDENCE'}</div>
                 <div class="immersive-gallery">
                     ${item.images.map(img => {
-                        const src = img.startsWith('img/') ? '/' + img : '/storage/' + img;
-                        if (img.toLowerCase().endsWith('.mp4')) {
-                            return `<div class="gallery-block"><video src="${src}" autoplay muted loop class="immersive-asset"></video></div>`;
-                        }
-                        return `<div class="gallery-block"><img src="${src}" class="immersive-asset" alt="Laboratory Asset"></div>`;
-                    }).join('')}
+                const src = img.startsWith('img/') ? '/' + img : '/storage/' + img;
+                if (img.toLowerCase().endsWith('.mp4')) {
+                    return `<div class="gallery-block"><video src="${src}" autoplay muted loop class="immersive-asset"></video></div>`;
+                }
+                return `<div class="gallery-block"><img src="${src}" class="immersive-asset" alt="Laboratory Asset"></div>`;
+            }).join('')}
                 </div>
             </div>`;
         }
@@ -524,7 +543,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="immersive-hero">
                 <img src="${mainImg}" class="hero-parallax-bg" alt="${name}">
                 <div class="hero-overlay">
-                    <span class="hero-tag">TECH-REPORT // V.${Math.floor(Math.random()*900)+100}</span>
+                    <span class="hero-tag">TECH-REPORT // V.${Math.floor(Math.random() * 900) + 100}</span>
                     <h1 class="hero-title">${name}</h1>
                 </div>
             </div>
@@ -604,16 +623,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const postView = win.querySelector('[id$="-view-post"]');
         const contentArea = win.querySelector('[id$="-dynamic-content"]');
         const scroller = win.querySelector('.portfolio-container') || win.querySelector('.window-content');
-        
+
         const type = winName === 'browser' ? 'projects' : 'experiments';
         const html = getDynamicPostData(id, type);
 
         if (html) {
             currentActivePost = { id, winName };
             const oldScrollTop = scroller ? scroller.scrollTop : 0;
-            
+
             contentArea.innerHTML = html;
-            
+
             if (!isRefresh) {
                 grid.style.display = 'none';
                 postView.style.display = 'block';
@@ -1012,9 +1031,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const key = el.getAttribute('data-i18n');
                 if (t[key]) {
                     if (el.tagName === 'P' || el.tagName === 'BLOCKQUOTE' || el.classList.contains('manifesto-section') || el.classList.contains('section-title')) {
-                         el.innerHTML = t[key];
+                        el.innerHTML = t[key];
                     } else {
-                         el.textContent = t[key];
+                        el.textContent = t[key];
                     }
                 }
             });
@@ -1048,7 +1067,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Update Contact Form Labels
             const submitBtn = document.querySelector('#contactForm .btn-submit');
             if (submitBtn) submitBtn.textContent = t['btn-submit'];
-            
+
             const fileLabel = document.getElementById('file-name-display');
             if (fileLabel && (fileLabel.textContent === 'Adjuntar archivo (Opcional)' || fileLabel.textContent === 'Attach file (Optional)')) {
                 fileLabel.textContent = t['label-file'];

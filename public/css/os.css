@@ -47,19 +47,23 @@ label {
 }
 
 /* Specific Resizer Cursors */
-.resizer-n, .resizer-s {
+.resizer-n,
+.resizer-s {
     cursor: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' shape-rendering='crispEdges'%3E%3Cpath d='M16 2 L10 10 L14 10 L14 22 L10 22 L16 30 L22 22 L18 22 L18 10 L22 10 Z' fill='white' stroke='black' stroke-width='2' /%3E%3C/svg%3E") 16 16, ns-resize !important;
 }
 
-.resizer-e, .resizer-w {
+.resizer-e,
+.resizer-w {
     cursor: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' shape-rendering='crispEdges'%3E%3Cpath d='M2 16 L10 10 L10 14 L22 14 L22 10 L30 16 L22 22 L22 18 L10 18 L10 22 Z' fill='white' stroke='black' stroke-width='2' /%3E%3C/svg%3E") 16 16, ew-resize !important;
 }
 
-.resizer-nw, .resizer-se {
+.resizer-nw,
+.resizer-se {
     cursor: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' shape-rendering='crispEdges'%3E%3Cpath d='M4 4 L14 4 L11 7 L21 17 L25 13 L28 28 L13 25 L17 21 L7 11 L4 14 Z' fill='white' stroke='black' stroke-width='2' /%3E%3C/svg%3E") 16 16, nwse-resize !important;
 }
 
-.resizer-ne, .resizer-sw {
+.resizer-ne,
+.resizer-sw {
     cursor: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' shape-rendering='crispEdges'%3E%3Cpath d='M28 4 L28 14 L25 11 L15 21 L19 25 L4 28 L7 13 L11 17 L21 7 L18 4 Z' fill='white' stroke='black' stroke-width='2' /%3E%3C/svg%3E") 16 16, nesw-resize !important;
 }
 
@@ -462,11 +466,30 @@ text {
     transition: background 0.3s, box-shadow 0.3s;
 }
 
-.taskbar-item[data-app="lab"].active::after { background: var(--color-orange); box-shadow: 0 0 8px var(--color-orange); }
-.taskbar-item[data-app="browser"].active::after { background: var(--color-cyan); box-shadow: 0 0 8px var(--color-cyan); }
-.taskbar-item[data-app="gallery"].active::after { background: var(--color-orange); box-shadow: 0 0 8px var(--color-orange); }
-.taskbar-item[data-app="experiments"].active::after { background: var(--color-orange); box-shadow: 0 0 8px var(--color-orange); }
-.taskbar-item[data-app="contact"].active::after { background: var(--color-cyan); box-shadow: 0 0 8px var(--color-cyan); }
+.taskbar-item[data-app="lab"].active::after {
+    background: var(--color-orange);
+    box-shadow: 0 0 8px var(--color-orange);
+}
+
+.taskbar-item[data-app="browser"].active::after {
+    background: var(--color-cyan);
+    box-shadow: 0 0 8px var(--color-cyan);
+}
+
+.taskbar-item[data-app="gallery"].active::after {
+    background: var(--color-orange);
+    box-shadow: 0 0 8px var(--color-orange);
+}
+
+.taskbar-item[data-app="experiments"].active::after {
+    background: var(--color-orange);
+    box-shadow: 0 0 8px var(--color-orange);
+}
+
+.taskbar-item[data-app="contact"].active::after {
+    background: var(--color-cyan);
+    box-shadow: 0 0 8px var(--color-cyan);
+}
 
 /* Clock & Status area */
 .status-area {
@@ -589,22 +612,40 @@ text {
     z-index: 0;
 }
 
-.window-header > * {
+.window-header>* {
     position: relative;
     z-index: 1;
 }
 
-#window-lab .window-header { border-bottom-color: var(--color-orange); }
-#window-browser .window-header { border-bottom-color: var(--color-cyan); }
-#window-gallery .window-header { border-bottom-color: var(--color-orange); }
-#window-experiments .window-header { border-bottom-color: var(--color-orange); }
-#window-contact .window-header { border-bottom-color: var(--color-cyan); }
-#window-doom .window-header { border-bottom-color: var(--color-red); }
+#window-lab .window-header {
+    border-bottom-color: var(--color-orange);
+}
+
+#window-browser .window-header {
+    border-bottom-color: var(--color-cyan);
+}
+
+#window-gallery .window-header {
+    border-bottom-color: var(--color-orange);
+}
+
+#window-experiments .window-header {
+    border-bottom-color: var(--color-orange);
+}
+
+#window-contact .window-header {
+    border-bottom-color: var(--color-cyan);
+}
+
+#window-doom .window-header {
+    border-bottom-color: var(--color-red);
+}
 
 .window-controls {
     display: flex;
     gap: 8px;
-    min-width: 80px; /* Increased to fit 3x20px + gaps */
+    min-width: 80px;
+    /* Increased to fit 3x20px + gaps */
 }
 
 .control-btn {
@@ -648,7 +689,8 @@ text {
 /* Maximized and Minimized states */
 .os-window.maximized {
     width: 100vw !important;
-    height: calc(100vh - 60px) !important; /* Adjust for taskbar */
+    height: calc(100vh - 60px) !important;
+    /* Adjust for taskbar */
     top: 0 !important;
     left: 0 !important;
     border-radius: 0 !important;
@@ -680,11 +722,25 @@ text {
     border-bottom-right-radius: 0;
 }
 
-#window-lab .window-content { scrollbar-color: var(--color-orange) transparent; }
-#window-browser .window-content { scrollbar-color: var(--color-cyan) transparent; }
-#window-gallery .window-content { scrollbar-color: var(--color-orange) transparent; }
-#window-experiments .window-content { scrollbar-color: var(--color-orange) transparent; }
-#window-contact .window-content { scrollbar-color: var(--color-cyan) transparent; }
+#window-lab .window-content {
+    scrollbar-color: var(--color-orange) transparent;
+}
+
+#window-browser .window-content {
+    scrollbar-color: var(--color-cyan) transparent;
+}
+
+#window-gallery .window-content {
+    scrollbar-color: var(--color-orange) transparent;
+}
+
+#window-experiments .window-content {
+    scrollbar-color: var(--color-orange) transparent;
+}
+
+#window-contact .window-content {
+    scrollbar-color: var(--color-cyan) transparent;
+}
 
 /* Manifesto Window Styles */
 .manifesto-container {
@@ -1324,7 +1380,8 @@ text {
 @media (max-width: 500px) {
     #desktop {
         padding: 0;
-        display: block; /* Desktop is just a wrapper now */
+        display: block;
+        /* Desktop is just a wrapper now */
     }
 
     .desktop-icons-container {
@@ -1431,7 +1488,8 @@ text {
         overflow: visible !important;
     }
 
-    .btn-minimize, .btn-maximize {
+    .btn-minimize,
+    .btn-maximize {
         display: none !important;
     }
 
@@ -1733,10 +1791,30 @@ text {
 .immersive-body {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 100px 5%;
+    padding: 100px 5% 250px; /* Increased buffer for taskbar */
     display: grid;
     grid-template-columns: 300px 1fr;
     gap: 60px;
+}
+
+/* Window-specific responsiveness (via JS class) */
+.os-window.window-narrow .immersive-body {
+    grid-template-columns: 1fr;
+    padding-top: 50px;
+    gap: 40px;
+}
+
+.os-window.window-narrow .lab-metadata-sidebar {
+    position: relative;
+    top: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+.os-window.window-narrow .hero-title {
+    font-size: clamp(24px, 5vw, 40px);
 }
 
 /* Metadata Sidebar (Laboratory Style) */
@@ -1814,7 +1892,7 @@ text {
     font-size: 18px;
     line-height: 1.8;
     color: rgba(255, 255, 255, 0.8);
-    text-align: justify;
+    text-align: left; /* Switched to left for better narrow legibility */
     margin-bottom: 40px;
     white-space: pre-wrap;
 }
@@ -1876,8 +1954,13 @@ text {
 }
 
 @keyframes scanLine {
-    0% { transform: translateY(-100vh); }
-    100% { transform: translateY(200vh); }
+    0% {
+        transform: translateY(-100vh);
+    }
+
+    100% {
+        transform: translateY(200vh);
+    }
 }
 
 @media (max-width: 1024px) {
@@ -1885,6 +1968,7 @@ text {
         grid-template-columns: 1fr;
         padding-top: 50px;
     }
+
     .lab-metadata-sidebar {
         position: relative;
         top: 0;
@@ -1892,9 +1976,11 @@ text {
         flex-wrap: wrap;
         gap: 30px;
     }
+
     .immersive-gallery {
         grid-template-columns: 1fr;
     }
+
     .gallery-block:nth-child(3n+1) {
         grid-column: span 1;
     }
