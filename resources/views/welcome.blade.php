@@ -4,7 +4,27 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Try Lab OS</title>
+        <title>Try Lab OS | Brutalist Innovation Laboratory</title>
+        <meta name="description" content="Try Lab is a brutalist innovation laboratory focused on stage architecture, branding, and digital experiences. Deconstructing the ordinary to create reference standards.">
+        <meta name="keywords" content="Innovation, Laboratory, Stage Architecture, Branding, UX, UI, Digital Art, Brutalist Design">
+        
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="{{ asset('img/TRY_Lab_logo.png') }}">
+        <link rel="apple-touch-icon" href="{{ asset('img/TRY_Lab_logo.png') }}">
+
+        <!-- Open Graph / Facebook / WhatsApp -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:title" content="Try Lab OS | Brutalist Innovation Laboratory">
+        <meta property="og:description" content="Deconstructing the ordinary to create reference standards. Stage Architecture. Branding. Digital Experiences.">
+        <meta property="og:image" content="{{ asset('img/TRY_Lab_logo.png') }}">
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="{{ url()->current() }}">
+        <meta property="twitter:title" content="Try Lab OS | Brutalist Innovation Laboratory">
+        <meta property="twitter:description" content="Deconstructing the ordinary to create reference standards. Stage Architecture. Branding. Digital Experiences.">
+        <meta property="twitter:image" content="{{ asset('img/TRY_Lab_logo.png') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
