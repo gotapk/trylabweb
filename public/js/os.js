@@ -1073,6 +1073,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 fileLabel.textContent = t['label-file'];
             }
 
+            // Update Project/Experiment Cards in Grid
+            document.querySelectorAll('.project-card').forEach(card => {
+                const id = card.getAttribute('data-id');
+                const type = card.getAttribute('data-type');
+                const dataList = window.BACKEND_DATA ? window.BACKEND_DATA[type] : [];
+                const item = dataList.find(i => String(i.id) === String(id));
+                
+                if (item) {
+                    const titleEl = card.querySelector('h3');
+                    const catEl = card.querySelector('p');
+                    if (titleEl) titleEl.textContent = (this.current === 'EN' && item.name_en) ? item.name_en : item.name;
+                    if (catEl) catEl.textContent = (this.current === 'EN' && item.category_en) ? item.category_en : item.category;
+                }
+            });
+
             // Update open post if any
             if (currentActivePost) {
                 openPost(currentActivePost.id, currentActivePost.winName, true);
