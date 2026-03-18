@@ -12,9 +12,11 @@
 
         <!-- Styles & Scripts -->
         <link rel="stylesheet" href="{{ asset('css/os.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/easter_eggs.css') }}">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script src="{{ asset('js/os.js') }}" defer></script>
+        <script src="{{ asset('js/easter_eggs.js') }}" defer></script>
     </head>
     <body>
         
@@ -130,7 +132,8 @@
                         <button class="control-btn btn-maximize">+</button>
                     </div>
                     <div class="window-title" data-i18n="lab-title">Our Lab - System Info</div>
-                    <div style="width: 80px;"></div> <!-- Spacer for flex centering -->
+                    <div class="lab-id-badge" id="cctv-trigger">B3-01</div> <!-- Moved trigger here -->
+                    <div style="width: 20px;"></div> <!-- Reduced spacer -->
                 </div>
                 <div class="window-content manifesto-container">
                     <div class="lab-grid"></div>
@@ -139,8 +142,8 @@
                         <section class="manifesto-section" data-section="ruptura">
                             <h2 class="section-number">I</h2>
                             <h3 class="section-title" data-i18n="lab-s1-title">La Filosofía de la Ruptura</h3>
-                            <p data-i18n="lab-s1-p1">En un mercado saturado de redundancias y soluciones predecibles, lo "seguro" se ha convertido en el mayor riesgo operativo. En <strong>Try Lab</strong>, entendemos la innovación no como un evento fortuito, sino como una <strong>disciplina de ruptura programada</strong>. No operamos bajo la lógica de la adaptación, sino bajo la arquitectura del cambio.</p>
-                            <p data-i18n="lab-s1-p2">Nacimos para cuestionar el statu quo no por rebeldía, sino por una necesidad intelectual de eficiencia. Donde otros ven un concepto terminado, nosotros vemos una estructura que espera ser deconstruida para alcanzar su máximo potencial.</p>
+                            <p data-i18n="lab-s1-p1">En un mercado saturado de redundancias y soluciones predecibles, lo "seguro" se ha convertido en el mayor riesgo operativo. En <strong>Try Lab</strong>, entendemos la innovación no como un evento fortuito, sino como una <span class="redacted">disciplina de ruptura programada</span>. No operamos bajo la lógica de la adaptación, sino bajo la <span class="redacted">arquitectura del cambio</span>.</p>
+                            <p data-i18n="lab-s1-p2">Nacimos para cuestionar el statu quo no por rebeldía, sino por una <span class="redacted">necesidad intelectual de eficiencia</span>. Donde otros ven un concepto terminado, nosotros vemos una estructura que espera ser deconstruida para alcanzar su máximo potencial.</p>
                         </section>
 
                         <section class="manifesto-section" data-section="expertise">
@@ -533,7 +536,15 @@
                 <button id="mute-btn" class="taskbar-btn" title="Silenciar">🔊</button>
                 <button id="lang-btn" class="taskbar-btn" title="Cambiar Idioma">ES</button>
                 <div id="clock" class="clock">12:00 AM</div>
+                <div class="system-version" style="margin-left: 10px;">v2.4.0-stable</div>
             </div>
+        </div>
+
+        <!-- Easter Eggs Overlays -->
+        <div id="easter-terminal"></div>
+        <div id="cctv-overlay">
+            <div class="cctv-noise"></div>
+            <div class="cctv-info">CAM_B3-01 // LABORATORY_INNER_CORE // LIVE</div>
         </div>
 
         <!-- Lightbox for Gallery -->

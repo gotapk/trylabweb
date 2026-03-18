@@ -1,0 +1,177 @@
+/* 
+   TRY LAB - Easter Eggs Styling
+   Brutalist Laboratory Aesthetic
+*/
+
+:root {
+    --terminal-green: #00ff41;
+    --terminal-bg: rgba(0, 5, 0, 0.95);
+    --cctv-glitch: #ff003c;
+    --radioactive-glow: #39ff14;
+}
+
+/* 1. Terminal Overlay */
+#easter-terminal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--terminal-bg);
+    color: var(--terminal-green);
+    font-family: 'Courier New', Courier, monospace;
+    z-index: 9999;
+    padding: 2rem;
+    display: none;
+    overflow-y: auto;
+    text-shadow: 0 0 5px var(--terminal-green);
+}
+
+#easter-terminal::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    background-size: 100% 3px, 3px 100%;
+    pointer-events: none;
+}
+
+.terminal-line {
+    margin-bottom: 0.5rem;
+    white-space: pre-wrap;
+}
+
+.terminal-prompt::before {
+    content: "> ";
+}
+
+/* 2. Self-Destruct Glitch (Applied via JS) */
+.glitch-active {
+    animation: glitch-skew 1s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-skew {
+    0% { transform: skew(0deg); filter: hue-rotate(0deg); }
+    20% { transform: skew(10deg); filter: hue-rotate(90deg); }
+    40% { transform: skew(-10deg); filter: invert(1); }
+    60% { transform: skew(20deg); filter: brightness(2); }
+    80% { transform: skew(-5deg); }
+    100% { transform: skew(0deg); }
+}
+
+/* 3. Redacted Text (Scribbled Style) */
+.redacted {
+    position: relative;
+    color: rgba(255, 255, 255, 0.2); /* Semi-transparent original text */
+    background: rgba(0, 229, 255, 0.05);
+    cursor: help;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 2px 4px;
+    border-radius: 2px;
+    display: inline;
+}
+
+.redacted::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -2px;
+    width: calc(100% + 4px);
+    height: 120%;
+    transform: translateY(-50%);
+    /* Scribble SVG */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='20'%3E%3Cpath d='M5 10 C 15 5, 25 15, 35 10 S 55 5, 65 10 S 85 15, 95 10' stroke='%2300e5ff' stroke-width='3' fill='none' opacity='0.7' stroke-linecap='round'/%3E%3Cpath d='M2 12 C 20 14, 40 8, 60 12 S 80 14, 98 12' stroke='%2300e5ff' stroke-width='2' fill='none' opacity='0.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-size: 80px 100%;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.redacted:hover {
+    color: #00e5ff;
+    background: rgba(0, 229, 255, 0.15);
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
+}
+
+.redacted:hover::after {
+    opacity: 0;
+}
+
+/* 4. CCTV Effect */
+#cctv-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 9998;
+    display: none;
+    pointer-events: none;
+}
+
+.cctv-noise {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url("https://media.giphy.com/media/oEI9uWU0WMrQm6qc8U/giphy.gif");
+    opacity: 0.1;
+    mix-blend-mode: color-dodge;
+}
+
+.cctv-info {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #fff;
+    font-family: monospace;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+#cctv-trigger {
+    font-family: monospace;
+    font-size: 10px;
+    padding: 2px 6px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 3px;
+    opacity: 0.5;
+    cursor: pointer;
+    background: rgba(0,0,0,0.3);
+    color: white;
+    transition: all 0.3s;
+    user-select: none;
+}
+
+#cctv-trigger:hover {
+    opacity: 1;
+    background: rgba(255, 0, 60, 0.2);
+    border-color: var(--cctv-glitch);
+    box-shadow: 0 0 10px var(--cctv-glitch);
+}
+
+/* 5. Radioactive Cursor Effect */
+.radioactive-cursor {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' style='fill:rgb(57,255,20)'><circle cx='12' cy='12' r='6'/></svg>"), auto !important;
+}
+
+.radioactive-cursor * {
+    text-shadow: 0 0 5px rgba(57, 255, 20, 0.5) !important;
+}
+
+/* 6. Version Style */
+.system-version {
+    font-size: 10px;
+    opacity: 0.4;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* 7. Draggable Logo Helper */
+.is-dragging {
+    opacity: 0.8;
+    scale: 1.1;
+    z-index: 10000;
+}
