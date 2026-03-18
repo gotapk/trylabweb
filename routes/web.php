@@ -15,8 +15,13 @@ Route::get('/', function () {
 
 Route::post('/api/contact', [ContactController::class, 'submit']);
 
+// Authentication Routes
+Route::get('/login', [\App\Http\Controllers\AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
+Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+
 // Admin Dashboard & CMS Routes
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/', [\App\Http\Controllers\AdminCMSController::class, 'index'])->name('admin.index');
     Route::get('/visits', [\App\Http\Controllers\AdminCMSController::class, 'visits'])->name('admin.visits');
     Route::get('/messages', [\App\Http\Controllers\AdminCMSController::class, 'messages'])->name('admin.messages');

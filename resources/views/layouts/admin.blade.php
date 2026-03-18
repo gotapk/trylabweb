@@ -19,6 +19,21 @@
             <li><a href="{{ route('admin.projects') }}" class="{{ request()->routeIs('admin.projects') ? 'active' : '' }}">Projects</a></li>
             <li><a href="{{ route('admin.experiments') }}" class="{{ request()->routeIs('admin.experiments') ? 'active' : '' }}">Experiments</a></li>
             <li><a href="{{ route('admin.translations') }}" class="{{ request()->routeIs('admin.translations') ? 'active' : '' }}">Translations</a></li>
+            <li style="margin-top: auto; padding-top: 2rem;">
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" style="background: none; border: 1px solid rgba(255,255,255,0.1); color: var(--text-secondary); padding: 0.8rem 1rem; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; width: 100%; text-align: left; transition: all 0.3s ease;">
+                        [SYSTEM_LOGOUT]
+                    </button>
+                    <style>
+                        button:hover {
+                            border-color: var(--accent-color);
+                            color: var(--accent-color);
+                            box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+                        }
+                    </style>
+                </form>
+            </li>
         </ul>
     </div>
 
