@@ -624,7 +624,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const contentArea = win.querySelector('[id$="-dynamic-content"]');
         const scroller = win.querySelector('.portfolio-container') || win.querySelector('.window-content');
 
-        const type = winName === 'browser' ? 'projects' : 'experiments';
+        const typeMap = {
+            'browser': 'projects',
+            'experiments': 'experiments',
+            'promotions': 'promotions'
+        };
+        const type = typeMap[winName] || 'projects';
         const html = getDynamicPostData(id, type);
 
         if (html) {
@@ -658,7 +663,13 @@ document.addEventListener('DOMContentLoaded', () => {
         card.addEventListener('click', () => {
             const id = card.getAttribute('data-id');
             const type = card.getAttribute('data-type');
-            if (id) openPost(id, type === 'projects' ? 'browser' : 'experiments');
+            if (!id || !type) return;
+
+            let winName = 'browser';
+            if (type === 'experiments') winName = 'experiments';
+            if (type === 'promotions') winName = 'promotions';
+
+            openPost(id, winName);
         });
     });
 

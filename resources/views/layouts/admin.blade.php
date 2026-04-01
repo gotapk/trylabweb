@@ -18,6 +18,7 @@
             <li style="margin-top: 2rem; color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase; margin-left: 1rem;">CMS Management</li>
             <li><a href="{{ route('admin.projects') }}" class="{{ request()->routeIs('admin.projects') ? 'active' : '' }}">Projects</a></li>
             <li><a href="{{ route('admin.experiments') }}" class="{{ request()->routeIs('admin.experiments') ? 'active' : '' }}">Experiments</a></li>
+            <li><a href="{{ route('admin.promotions') }}" class="{{ request()->routeIs('admin.promotions') ? 'active' : '' }}">Promotions</a></li>
             <li><a href="{{ route('admin.translations') }}" class="{{ request()->routeIs('admin.translations') ? 'active' : '' }}">Translations</a></li>
             <li style="margin-top: auto; padding-top: 2rem;">
                 <form action="{{ route('logout') }}" method="POST">

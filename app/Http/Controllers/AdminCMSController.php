@@ -8,6 +8,7 @@ use App\Models\ContactMessage;
 use App\Models\Project;
 use App\Models\Experiment;
 use App\Models\Translation;
+use App\Models\Promotion;
 use Illuminate\Support\Facades\DB;
 
 class AdminCMSController extends Controller
@@ -55,6 +56,12 @@ class AdminCMSController extends Controller
     {
         $translations = Translation::all();
         return view('admin.translations', compact('translations'));
+    }
+
+    public function promotions()
+    {
+        $promotions = Promotion::orderBy('order')->get();
+        return view('admin.promotions', compact('promotions'));
     }
 
     // Projects CRUD
@@ -164,6 +171,59 @@ class AdminCMSController extends Controller
         );
 
         return redirect()->back()->with('success', 'Translation saved successfully');
+    }
+
+    // Promotions CRUD
+    public function storePromotion(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'category' => 'nullable|string',
+            'link' => 'nullable|string',
+            'order' => 'nullable|integer',
+            'active' => 'nullable|boolean',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
+
+        if ($request->hasFile('image_file')) {
+            $path = $request->file('image_file')->store('img/Promociones', 'public_uploads');
+            $data['image_path'] = $path;
+        }
+
+        $data['active'] = $request->has('active');
+
+        Promotion::create($data);
+        return redirect()->back()->with('success', 'Promotion created successfully');
+    }
+
+    public function updatePromotion(Request $request, Promotion $promotion)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'category' => 'nullable|string',
+            'link' => 'nullable|string',
+            'order' => 'nullable|integer',
+            'active' => 'nullable|boolean',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
+
+        if ($request->hasFile('image_file')) {
+            $path = $request->file('image_file')->store('img/Promociones', 'public_uploads');
+            $data['image_path'] = $path;
+        }
+
+        $data['active'] = $request->has('active');
+
+        $promotion->update($data);
+        return redirect()->back()->with('success', 'Promotion updated successfully');
+    }
+
+    public function deletePromotion(Promotion $promotion)
+    {
+        $promotion->delete();
+        return redirect()->back()->with('success', 'Promotion deleted successfully');
     }
 
     public function markAsRead(ContactMessage $message)

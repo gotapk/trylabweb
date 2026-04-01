@@ -141,6 +141,12 @@
                     <img src="{{ asset('img/test_tube.png') }}" alt="Experimentos">
                     <span>Experimentos</span>
                 </div>
+
+                <!-- Desktop Icon: Promociones -->
+                <div class="desktop-icon app-opener" data-app="promotions">
+                    <div class="icon-emoji">🎫</div>
+                    <span>Promos</span>
+                </div>
             </div>
             
             <!-- Window: Our Lab -->
@@ -506,6 +512,67 @@
                 <div class="resizer resizer-w"></div>
             </div>
 
+            <!-- Window: Promociones -->
+            <div class="os-window glass" id="window-promotions" style="z-index: 100;">
+                <div class="window-header with-grain">
+                    <div class="window-controls">
+                        <button class="control-btn btn-close"></button>
+                        <button class="control-btn btn-minimize"></button>
+                        <button class="control-btn btn-maximize"></button>
+                    </div>
+                    <div class="window-title">Promociones - Hub</div>
+                    <div style="width: 48px;"></div>
+                </div>
+                <div class="window-content glass app-content promotions-bg" style="padding: 0; overflow: hidden;">
+                    <div class="portfolio-container" style="background: transparent;">
+                        <div id="promotions-view-grid" class="portfolio-grid-view">
+                            <div class="portfolio-hero" style="text-align: left; margin-bottom: 40px;">
+                                <h2>Promociones Exclusivas</h2>
+                                <p>Descubre las ofertas y beneficios actuales de Try Lab.</p>
+                            </div>
+
+                            <div class="projects-grid">
+                                @forelse($promotions as $promotion)
+                                <article class="project-card promotion-post" data-id="{{ $promotion->id }}" data-type="promotions">
+                                    <div class="project-media">
+                                        @php
+                                            $imgSrc = (str_starts_with($promotion->image_path, 'img/')) 
+                                                ? asset($promotion->image_path) 
+                                                : asset('storage/' . $promotion->image_path);
+                                        @endphp
+                                        <img src="{{ $imgSrc }}" alt="{{ $promotion->name }}" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text={{ urlencode($promotion->name) }}'">
+                                    </div>
+                                    <div class="project-info">
+                                        <div class="exp-date" style="font-size: 10px; opacity: 0.5; margin-bottom: 5px;">PROMO // ASSET</div>
+                                        <h3>{{ $promotion->name }}</h3>
+                                        <p>{{ $promotion->category }}</p>
+                                    </div>
+                                </article>
+                                @empty
+                                <div style="color: white; font-family: var(--font-mono); opacity: 0.5; text-align: center; width: 100%; padding: 40px;">
+                                    [NO_ACTIVE_PROMOTIONS_FOUND]
+                                </div>
+                                @endforelse
+                            </div>
+                        </div>
+
+                        <!-- Promotion Detail View (reusing same logic as others) -->
+                        <div id="promotions-view-post" style="display: none;">
+                            <div id="promotions-dynamic-content" class="post-content-area"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Resizers -->
+                <div class="resizer resizer-nw"></div>
+                <div class="resizer resizer-ne"></div>
+                <div class="resizer resizer-sw"></div>
+                <div class="resizer resizer-se"></div>
+                <div class="resizer resizer-n"></div>
+                <div class="resizer resizer-s"></div>
+                <div class="resizer resizer-e"></div>
+                <div class="resizer resizer-w"></div>
+            </div>
+
         <!-- Window: DOOM -->
         <div class="os-window glass" id="window-doom" style="z-index: 1001; width: 800px; height: 500px;">
             <div class="window-header">
@@ -590,7 +657,8 @@
             window.DB_TRANSLATIONS = @json($translations);
             window.BACKEND_DATA = {
                 projects: @json($projects),
-                experiments: @json($experiments)
+                experiments: @json($experiments),
+                promotions: @json($promotions)
             };
         </script>
     </body>

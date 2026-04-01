@@ -6,11 +6,12 @@ use App\Http\Controllers\ContactController;
 Route::get('/', function () {
     $projects = \App\Models\Project::orderBy('order')->get();
     $experiments = \App\Models\Experiment::orderBy('order')->get();
+    $promotions = \App\Models\Promotion::where('active', true)->orderBy('order')->get();
     $translations = \App\Models\Translation::all()->groupBy('locale')->map(function ($group) {
         return $group->pluck('value', 'key');
     });
 
-    return view('welcome', compact('projects', 'experiments', 'translations'));
+    return view('welcome', compact('projects', 'experiments', 'promotions', 'translations'));
 });
 
 Route::post('/api/contact', [ContactController::class, 'submit']);
@@ -40,4 +41,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     
     Route::get('/translations', [\App\Http\Controllers\AdminCMSController::class, 'translations'])->name('admin.translations');
     Route::post('/translations', [\App\Http\Controllers\AdminCMSController::class, 'storeTranslation'])->name('admin.translations.store');
+
+    Route::get('/promotions', [\App\Http\Controllers\AdminCMSController::class, 'promotions'])->name('admin.promotions');
+    Route::post('/promotions', [\App\Http\Controllers\AdminCMSController::class, 'storePromotion'])->name('admin.promotions.store');
+    Route::put('/promotions/{promotion}', [\App\Http\Controllers\AdminCMSController::class, 'updatePromotion'])->name('admin.promotions.update');
+    Route::delete('/promotions/{promotion}', [\App\Http\Controllers\AdminCMSController::class, 'deletePromotion'])->name('admin.promotions.delete');
 });
