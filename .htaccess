@@ -1,4 +1,4 @@
-<IfModule mod_rewrite.c>
+ <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
@@ -13,4 +13,4 @@
     # Handle Front Controller...
     RewriteCond %{REQUEST_URI} !^/public/
     RewriteRule ^(.*)$ /public/$1 [L,QSA]
-</IfModule>
+</IfModule>  
